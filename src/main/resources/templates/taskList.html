@@ -1,10 +1,135 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>What are you doing?</title>
-</head>
-<body>
-  
-</body>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Your Tasks</title>
+    <link href="/css/commons.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  </head>
+  <body class="p-3 mb-2 bg-secondary text-white">
+    <div id="app">
+      
+      <div class="header">
+        <h1 class="site_logo">
+          <a href="/">TodoManager</a>
+        </h1>
+        <div class="user">
+         <div th:if="${session.user}">
+            <script>
+              location.href = "/"
+            </script>
+          </div>
+          <div th:if=${session.user}>
+            <p class="user_name" th:text="|${session.user.name}さん、こんにちは|"></p>
+          </div>
+          <form class="logout_form" action="/logout" method="post">
+            <button class="logout_btn" type="submit">
+              <img src="/images/ドアアイコン.png">ログアウト
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <hr>
+      
+      <div class="container w-75">
+        <h1 class="text-center text-info my-4">TODO</h1>
+        <form id="form" class="mb-4">
+          <input type=text id="input" placeholder="TODOを入力" autocomplete="off">
+        </form>
+        <ul class="list-group text-secondary" id="ul"></ul>
+      </div>
+      
+      <div id="sticky">
+        <div id="green_sticky" class="p-3 mb-2 bg-seccess text-white zoom-in-green">
+          <h3>Green</h3>
+          <ul 
+          class="list-group text-secondary dropzone" 
+          @drop="dropList($event, 'green')" 
+          @dragover.prevent
+          @dragenter.prevent
+          >
+              <li 
+              class="list-group-item" 
+              v-for="todo in green" 
+              draggable="true" 
+              @dragstart="dragList($event)"
+              >
+              {{ todo.todoName }}
+              </li>
+          </ul>
+        </div>
+        <div id="red_sticky" class="p-3 mb-2 bg-danger text-white zoom-in-red">
+          <h3>Red</h3>
+          <ul
+          class="list-group text-secondary dropzone" 
+          @drop="dropList($event, 'green')" 
+          @dragover.prevent
+          @dragenter.prevent
+          >
+            <li 
+            class="list-group-item"
+            draggable="true"
+            ></li>
+          </ul>
+        </div>
+        <div id="blue_sticky" class="p-3 mb-2 bg-info text-white zoom-in-blue">
+          <h3>Blue</h3>
+          <ul>
+            <li draggable="true"></li>
+          </ul>
+        </div>
+        <div id="yellow_sticky" class="p-3 mb-2 bg-warning text-white zoom-in-yellow">
+          <h3>yellow</h3>
+          <ul>
+            <li draggable="true"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <footer></footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<!--     <script> -->
+<!--        const vue = new Vue({ -->
+<!--          el: "#app", -->
+<!--          data: { -->
+<!--            green: [], -->
+<!--          }, -->
+<!--          methods:{ -->
+<!--          	dragList(event, dragTodoName){ -->
+<!--          		event.dataTransfer.setData('todo',dragTodoName) -->
+<!--          	}, -->
+<!--          	dropList(event, dropColor){ -->
+<!--          		const dragTodoName = event.dataTransfer.getData('todo') -->
+<!--          		const dragList = this.green.find(todo => todo.todoName == dragTodoName) -->
+<!--          		dragList.category = dropCategory -->
+<!--          	} -->
+<!--          }, -->
+<!--          created: function() { -->
+<!--            fetch('/getGreen') -->
+<!--            .then(res => res.json().then(data => this.green = data)) -->
+<!--            .catch(error => console.log(error)) -->
+<!--          }, -->
+<!--          computed: { -->
+<!--              Green () { -->
+<!--                  return this.lists.filter(list => list.category == 'A') -->
+<!--              }, -->
+<!--              Red () { -->
+<!--                  return this.lists.filter(list => list.category == 'B') -->
+<!--              }, -->
+<!--              Blue () { -->
+<!--                  return this.lists.filter(list => list.category == 'C') -->
+<!--              }, -->
+<!--              Yellow () { -->
+<!--                  return this.lists.filter(list => list.category == 'C') -->
+<!--              } -->
+<!--          } -->
+<!--          }) -->
+<!--      </script> -->
+    <script type="text/javascript" src="/js/taskList.js"></script>
+  </body>
 </html>

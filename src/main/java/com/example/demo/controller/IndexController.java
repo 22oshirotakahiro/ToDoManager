@@ -22,7 +22,7 @@ public class IndexController {
 		return "index";
 	}
 	
-	@RequestMapping(value="/taskList")
+	@RequestMapping(value="/login")
 	public String login(@ModelAttribute() LoginForm loginForm, Model model) {
 		
 		

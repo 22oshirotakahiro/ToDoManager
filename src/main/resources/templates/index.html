@@ -27,7 +27,7 @@
         <div>
           <input class="base_input" type="password" th:field="*{password}" placeholder="PASS">
           <div class="error" th:each="error: ${#fields.errors('password')}">
-          [[ ${error} ]]
+            [[ ${error} ]]
           </div>
         </div>
       </fieldset>
